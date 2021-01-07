@@ -12,9 +12,13 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import MainNavigation from './components/MainNavigation.vue';
 import WindowsList from './components/WindowsList.vue';
-
+import Toasted from 'vue-toasted'
+Vue.use(Toasted,{
+  iconPack : 'material' 
+})
 export default {
   name: 'App',
   components: {

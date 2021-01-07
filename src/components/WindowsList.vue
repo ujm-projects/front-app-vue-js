@@ -12,10 +12,9 @@
 
 
 <script>
-import axios from 'axios';
 import {API_HOST} from '../config';
 import WindowsListItem from './WindowsListItem';
-
+import apiService from '../service/apiService.js';
 export default {
   components: {
     WindowsListItem
@@ -27,10 +26,28 @@ export default {
       windows: []
     }
   },
-  created: async function() {
-    let response = await axios.get(`${API_HOST}/api/windows`);
-    let windows = response.data;
-    this.windows = windows;
+  created:  function() {
+    let myToast = this.$toasted.show("Loading data..Please wait !!", { 
+            icon : {
+             name : 'hourglass_bottom'
+            }, 
+            theme: "toasted-primary", 
+            position: "top-right", 
+            duration : 5000
+        });
+    apiService.get("/api/window").then(res=>{
+      this.windows=res.data;
+     setTimeout(function(){ 
+        
+        myToast.text("Done !!!",{
+          icon:"check"
+        }).goAway(1000);
+     }, 1000);
+     
+    }).catch(error => {
+      console.log(error)
+       myToast.text("Error !!!").goAway(1000);
+    });
   },
   methods: {
     updateWindow(newWindow) {
@@ -38,6 +55,25 @@ export default {
       let index = this.windows.findIndex(window => window.id === newWindow.id);
       this.windows.splice(index, 1, newWindow);
     }
-  }
+  },
+  // created:function(){
+    // let myToast = this.$toasted.show("Loading..Please wait !!", { 
+    //         icon : {
+    //          name : 'hourglass_bottom'
+    //         }, 
+    //         theme: "toasted-primary", 
+    //         position: "top-right", 
+    //         duration : 5000
+    //     });
+        
+    //  let myToast = this.$toasted.show(
+    //   'hello there, i am a toast !!', {
+    //     icon : {
+    //         name : 'check',
+    //         after : true
+    //     }
+    //   });
+      // myToast.text("Changing the text !!!").goAway(1500);
+  // }
 }
 </script>
