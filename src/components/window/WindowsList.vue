@@ -5,7 +5,7 @@
       :window="window"
       :key="window.id"  
       @window-updated="updateWindow"
-      @window-delete="deleteWindow"
+      @window-deleted="deleteWindow"
     >
     </windows-list-item>
   </div>
