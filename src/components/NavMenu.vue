@@ -10,7 +10,7 @@
             <div class="navbar-nav">
             <a class="nav-item nav-link active" href="#">Home</a>
             <a class="nav-item nav-link" href="#">Building</a>
-            <a class="nav-item nav-link" href="#">Room</a>
+            <a class="nav-item nav-link" href="#"><router-link to="room">Room</router-link></a>
             <a class="nav-item nav-link" href="#">
             <router-link to="create-window">Create Window</router-link>
             </a>
