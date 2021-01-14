@@ -82,8 +82,8 @@ export default {
           }
           let room={name:this.roomName, floor:this.floor, targetTemperature:this.tTemp, buildingId:this.selected.id}
           apiService.post("/api/room", room).then(res=>{
-                   debugger
-                this.$toasted.show("Room successfully created !!", { 
+              this.$emit('room-created', res.data);
+                this.$toasted.show("Room successfully created !!", {
                     icon : {
                     name : 'check'
                     }, 
@@ -92,7 +92,6 @@ export default {
                     duration : 5000
                 });
             }).catch(error => {
-                    debugger
                 console.log(error)
                 this.$toasted.show(`Error !! : ${error}`, { 
                     icon : {

@@ -63,7 +63,6 @@ export default {
   },
   methods: {
      createWindow() {
-        debugger
        if(!this.windowName || !this.windowStatus || !this.selectedRoom.id || this.selectedRoom.id === undefined){
           this.$toasted.show("Please fill the form correctly !!", { 
               icon : {
@@ -81,6 +80,7 @@ export default {
           'windowStatus': this.windowStatus
         };
         apiService.post("/api/window", window).then(res=>{
+            this.$emit('window-created', res.data);
                 this.$toasted.show("Window successfully created !!", { 
                     icon : {
                     name : 'check'

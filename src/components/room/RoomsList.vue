@@ -35,7 +35,7 @@
         </div>
       </template>
       <template v-if="isCreateRoom">
-          <create-room></create-room>
+          <create-room @room-created="roomCreated"></create-room>
       </template>
     </div>
 </template>
@@ -105,6 +105,9 @@ export default {
     },
     onCreateRoom(){
       this.isCreateRoom=!this.isCreateRoom
+    },
+    roomCreated(newRoom){
+      this.rooms.push(newRoom)
     }
   },
 }

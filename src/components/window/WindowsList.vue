@@ -31,7 +31,7 @@
         </div>
       </template>
        <template v-if="isCreateWindow">
-          <create-window></create-window>
+          <create-window @window-created="windowCreated"></create-window>
       </template>
   </div>
 
@@ -113,6 +113,9 @@ export default {
     },
     onCreateWindow(){
       this.isCreateWindow=!this.isCreateWindow
+    },
+    windowCreated(newWindow){
+      this.windows.push(newWindow)
     }
   },
   // created:function(){
