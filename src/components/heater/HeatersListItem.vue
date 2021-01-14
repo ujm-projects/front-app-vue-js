@@ -21,7 +21,7 @@
       <hr/>
       <div class="details d-flex">
         <button type="button" class="btn btn-secondary me-2" @click="switchHeater">{{ isHeaterOn ? 'Off' : 'On' }} heater</button>
-        <button type="button" class="btn btn-danger" @click="deleteHeater">Delete Window</button>
+        <button type="button" class="btn btn-danger" @click="deleteHeater">Delete heater</button>
       </div>
     </template>
   </div>
@@ -50,21 +50,18 @@ export default {
     },
  
      switchHeater() {
-          debugger
       apiService.put(`/api/heater/${this.heater.id}/switch?status=${this.heater.heaterStatus==="ON"?0:1}`,null).then(res=>{
-      debugger
       let updatedHeater = res.data;
       this.$emit('heater-updated', updatedHeater);
       }).catch(error => {
-        debugger
         console.log(error)
       });
     },
     async deleteHeater() {
       apiService.delete(`/api/heater/${this.heater.id}`).then(res=>{
-         let updatedWindow = res.data;
+         let updatedHeater = res.data;
         if (res.status === 200) {
-            this.$emit('heater-deleted', this.heater);
+            this.$emit('heater-deleted', this.updatedHeater);
         }
       }).catch(error => {
         console.log(error)
