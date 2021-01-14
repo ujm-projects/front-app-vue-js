@@ -21,7 +21,7 @@
       <hr/>
       <div class="details d-flex">
         <button type="button" class="btn btn-secondary me-2" @click="switchWindow">{{ isWindowOpen ? 'Close' : 'Open' }} window</button>
-        <button type="button" class="btn btn-danger disabled">Delete window</button>
+        <button type="button" class="btn btn-danger" @click="deleteWindow">Delete Window</button>
       </div>
     </template>
   </div>
@@ -29,8 +29,8 @@
 
 <script>
 import axios from 'axios';
-import {API_HOST} from '../config';
-
+import {API_HOST} from '../../config';
+import apiService from '../../service/apiService.js';
 export default {
   name: 'WindowsListItem',
   props: ['window'],
@@ -48,10 +48,24 @@ export default {
     toggleExpand() {
       this.isExpanded = !this.isExpanded;
     },
-    async switchWindow() {
-      let response = await axios.put(`${API_HOST}/api/windows/${this.window.id}/switch`);
-      let updatedWindow = response.data;
+     switchWindow() {
+      apiService.put(`/api/window/${this.window.id}/switch`,null).then(res=>{
+         let updatedWindow = res.data;
       this.$emit('window-updated', updatedWindow);
+         
+      }).catch(error => {
+        console.log(error)
+      });
+    },
+    async deleteWindow() {
+      apiService.delete(`/api/window/${this.window.id}`).then(res=>{
+         let updatedWindow = res.data;
+        if (res.status === 200) {
+            this.$emit('window-deleted', this.window);
+        }
+      }).catch(error => {
+        console.log(error)
+      });
     }
   }
 }
