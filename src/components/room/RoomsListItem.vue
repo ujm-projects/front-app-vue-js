@@ -28,8 +28,10 @@
 
       </div>
       <div class="details d-flex"  style="margin-top:2rem">
-        <button type="button" class="btn btn-secondary me-2" @click="switchWindow">{{ isWindowOpen ? 'Close' : 'Open' }}  All Window</button>
-        <button type="button" class="btn btn-danger" @click="switchHeater">{{ isHeaterOn ? 'Off' : 'On' }} All Heaters</button>
+        <button type="button" class="btn btn-danger me-2" @click="switchWindow">{{ isWindowOpen ? 'Close' : 'Open' }}  All Window</button>
+        <button type="button" class="btn btn-danger me-2" @click="switchHeater">{{ isHeaterOn ? 'Off' : 'On' }} All Heaters</button>
+        <button type="button" class="btn btn-warning offset-md-3 me-1" @click="showWindow">Show Windows</button>
+        <button type="button" class="btn btn-primary" @click="showHeater"> Show Heaters</button>
       </div>
     </template>
   </div>
@@ -64,6 +66,12 @@ export default {
     switchHeater(){
       this.isHeaterOn=!this.isHeaterOn
       this.$emit('heater-switch', {data:this.room, status:this.isHeaterOn});
+    },
+    showHeater(){
+      this.$router.push({name: 'room-heater', params: { roomId: this.room.id}});
+    },
+    showWindow(){
+        this.$router.push({name: 'room-window', params: { roomId: this.room.id}});
     }
   }
 }

@@ -22,6 +22,11 @@ export default new Router({
             name: 'create-window',
             component: CreateWindow
         },
+        {
+            path: '/window:roomId',
+            name: 'room-window',
+            component: WindowsList
+        },
 
     ]
 })
