@@ -8,12 +8,14 @@ export default {
     },
     put: function (path, params) {
         return axios.put(`${API_HOST}${path}`, params);
-        // let windows = response.data;
-        // return windows;
+    },
+    delete: function (path) {
+        return axios.delete(`${API_HOST}${path}`);
     },
     putWithBody: function (path, body, params) {
         return axios.put(`${API_HOST}${path}`, body, params);
-        // let windows = response.data;
-        // return windows;
+    },
+    post: function (path, body) {
+        return axios.post(`${API_HOST}${path}`, body);
     }
 }

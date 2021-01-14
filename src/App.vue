@@ -19,6 +19,10 @@ import MainNavigation from './components/MainNavigation.vue';
 import NavMenu from './components/NavMenu.vue';
 import WindowsList from './components/window/WindowsList.vue';
 import Toasted from 'vue-toasted'
+import 'vue-select/dist/vue-select.css';
+// import vSelect from 'vue-select'
+// Vue.component('v-select', vSelect)
+
 Vue.use(Toasted,{
   iconPack : 'material' 
 })

@@ -30,7 +30,7 @@
 <script>
 import axios from 'axios';
 import {API_HOST} from '../../config';
-
+import apiService from '../../service/apiService.js';
 export default {
   name: 'WindowsListItem',
   props: ['window'],
@@ -48,17 +48,24 @@ export default {
     toggleExpand() {
       this.isExpanded = !this.isExpanded;
     },
-    async switchWindow() {
-      let response = await axios.put(`${API_HOST}/api/window/${this.window.id}/switch`);
-      let updatedWindow = response.data;
+     switchWindow() {
+      apiService.put(`/api/window/${this.window.id}/switch`,null).then(res=>{
+         let updatedWindow = response.data;
       this.$emit('window-updated', updatedWindow);
+         
+      }).catch(error => {
+        console.log(error)
+      });
     },
     async deleteWindow() {
-       let response = await axios.delete(`${API_HOST}/api/window/${this.window.id}`);
-       let updatedWindow = response.data;
-       if (response.status === 200) {
-        this.$emit('window-deleted', this.window);
-      }
+      apiService.delete(`/api/window/${this.window.id}`).then(res=>{
+         let updatedWindow = res.data;
+        if (res.status === 200) {
+            this.$emit('window-deleted', this.window);
+        }
+      }).catch(error => {
+        console.log(error)
+      });
     }
   }
 }

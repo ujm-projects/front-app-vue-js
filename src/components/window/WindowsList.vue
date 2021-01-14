@@ -28,6 +28,7 @@ export default {
     }
   },
   created:  function() {
+    let roomId=this.$route.params.roomId;
     let myToast = this.$toasted.show("Loading data..Please wait !!", { 
             icon : {
              name : 'hourglass_bottom'
@@ -36,23 +37,36 @@ export default {
             position: "top-right", 
             duration : 5000
         });
-    apiService.get("/api/window").then(res=>{
-      this.windows=res.data;
-     setTimeout(function(){ 
-        
-        myToast.text("Done !!!",{
-          icon:"check"
-        }).goAway(1000);
-     }, 1000);
-     
-    }).catch(error => {
-      console.log(error)
-       myToast.text("Error !!!").goAway(1000);
-    });
+        debugger
+    if(roomId) {
+      apiService.get(`/api/window/${roomId}`).then(res=>{
+        this.windows=res.data;
+        setTimeout(function(){ 
+            myToast.text("Done !!!",{
+              icon:"check"
+            }).goAway(1000);
+        }, 1000);
+      }).catch(error => {
+        console.log(error)
+        myToast.text("Error !!!").goAway(1000);
+      });
+    } else{
+      apiService.get("/api/window").then(res=>{
+        this.windows=res.data;
+        setTimeout(function(){ 
+            myToast.text("Done !!!",{
+              icon:"check"
+            }).goAway(1000);
+        }, 1000);
+      }).catch(error => {
+        console.log(error)
+        myToast.text("Error !!!").goAway(1000);
+      });
+    }  
+    
   },
   methods: {
     updateWindow(newWindow) {
-      /* Find the place of window objectw ith the same Id in the array, and replace it */
       let index = this.windows.findIndex(window => window.id === newWindow.id);
       this.windows.splice(index, 1, newWindow);
     },
