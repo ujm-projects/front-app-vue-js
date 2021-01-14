@@ -21,7 +21,7 @@
       <hr/>
       <div class="details d-flex">
         <button type="button" class="btn btn-secondary me-2" @click="switchWindow">{{ isWindowOpen ? 'Close' : 'Open' }} window</button>
-        <button type="button" class="btn btn-danger disabled">Delete window</button>
+        <button type="button" class="btn btn-danger" @click="deleteWindow">Delete Window</button>
       </div>
     </template>
   </div>
@@ -49,9 +49,16 @@ export default {
       this.isExpanded = !this.isExpanded;
     },
     async switchWindow() {
-      let response = await axios.put(`${API_HOST}/api/windows/${this.window.id}/switch`);
+      let response = await axios.put(`${API_HOST}/api/window/${this.window.id}/switch`);
       let updatedWindow = response.data;
       this.$emit('window-updated', updatedWindow);
+    },
+    async deleteWindow() {
+       let response = await axios.delete(`${API_HOST}/api/window/${this.window.id}`);
+       let updatedWindow = response.data;
+       if (response.status === 200) {
+        this.$emit('window-deleted', this.window);
+      }
     }
   }
 }
