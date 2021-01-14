@@ -9,6 +9,10 @@ Vue.use(Router)
 export default new Router({
     routes: [
         {
+            path: '/',
+            component: RoomList
+        },
+        {
             path: '/window',
             name: 'window',
             component: WindowsList
