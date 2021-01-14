@@ -27,11 +27,11 @@
        No of Windows {OPEN}: {{room.noOfOpenWindow}} 
 
       </div>
-      <div class="details d-flex"  style="margin-top:2rem">
-        <button type="button" class="btn btn-danger me-2" @click="switchWindow">{{ isWindowOpen ? 'Close' : 'Open' }}  All Window</button>
-        <button type="button" class="btn btn-danger me-2" @click="switchHeater">{{ isHeaterOn ? 'Off' : 'On' }} All Heaters</button>
-        <button type="button" class="btn btn-warning offset-md-3 me-1" @click="showWindow">Show Windows</button>
-        <button type="button" class="btn btn-primary" @click="showHeater"> Show Heaters</button>
+      <div class="details"  style="margin-top:2rem">
+        <button type="button" class="btn btn-danger col-sm-2 me-2" @click="switchWindow">{{ isWindowOpen ? 'Close' : 'Open' }}  All Window</button>
+        <button type="button" class="btn btn-danger col-sm-2 me-2" @click="switchHeater">{{ isHeaterOn ? 'Off' : 'On' }} All Heaters</button>
+        <button type="button" class="btn btn-warning  offset-md-3 me-1" @click="showWindow">Windows</button>
+        <button type="button" class="btn btn-primary col-sm-2" @click="showHeater"> Heaters</button>
       </div>
     </template>
   </div>

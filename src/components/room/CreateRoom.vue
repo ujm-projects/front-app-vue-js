@@ -69,7 +69,7 @@ export default {
   },
   methods: {
       create(){
-          if(!this.roomName && !this.tTemp && !this.floor && !this.selected){
+          if(!this.roomName || !this.tTemp || !this.floor || !this.selected.id){
             this.$toasted.show("Please fill the form correctly !!", { 
                 icon : {
                 name : 'error_outline'
@@ -78,9 +78,11 @@ export default {
                 position: "top-right", 
                 duration : 5000
             });
+             return;
           }
           let room={name:this.roomName, floor:this.floor, targetTemperature:this.tTemp, buildingId:this.selected.id}
-          apiService.post("/api/building", room).then(res=>{
+          apiService.post("/api/room", room).then(res=>{
+                   debugger
                 this.$toasted.show("Room successfully created !!", { 
                     icon : {
                     name : 'check'

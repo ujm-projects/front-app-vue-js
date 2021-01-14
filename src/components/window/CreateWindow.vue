@@ -1,36 +1,41 @@
 <template>
   <div class="windows-create pt-3">
-
-    <div class="row">
-      <label for="name" class="col">name</label>
-      <input id="name" class="col" v-model='window.name' placeholder="name"><br>
-    </div>
-    <div class="row">
-      <label for="room_id" class="col">room id</label>
-      <input id="room_id" class="col" v-model='window.room_id' placeholder="room id"><br>
-    </div>
-    
-    <div class="row">
-      <label for="status" class="col">Window Status :</label>
-      <!-- <input id="status" class="col" v-model='window.status' placeholder="Window Status :"><br> -->
-
-
-    <form id="status" class="col">
-    <label class="checkbox-inline">
-      <input type="checkbox" value="">Open
-    </label>
-    <label class="checkbox-inline">
-      <input type="checkbox" value="">Close
-    </label>
-
-  </form>
-
-      
-      
-      <br>
-    </div>
-    <button type="button" class="btn btn-secondary me-2" @click="createWindow">Create</button>
-  </div>
+      <form>
+          <div class="form-group row">
+              <label  class="col-sm-3 col-form-label" style="text-aligh:left">Window Name</label>
+              <div class="col-sm-9">
+              <input type="text" v-model="windowName" class="form-control-plaintext" placeholder="Window 9">
+              </div>
+          </div>
+          <div class="form-group row">
+              <label  class="col-sm-3 col-form-label">Window Status</label>
+              <div class="col-sm-9">
+                <div class="form-control col-sm-9"  >
+                  <select  v-model="windowStatus" name="status" style="width:100%">
+                    <option selected value="CLOSE">CLOSE</option>
+                    <option value="OPEN">OPEN</option>
+                  </select>
+                </div>
+              </div>
+          </div>
+          <div class="form-group row">
+              <label for="inputPassword" class="col-sm-3 col-form-label">Room</label>
+              <div class="col-sm-9">
+                      <div class="form-control col-sm-9">
+                          <select v-model="selectedRoom" name="rooms"  style="width:100%"   >
+                              <template v-for="room in rooms" >
+                                  <option :value="room" :key="room.id" >{{room.name}}</option>
+                              </template>
+                          </select>
+                      </div>
+              </div>
+          </div>
+          <div class="form-group row" style="margin-top : 2rem">
+              <button type="button" class="btn btn-primary col-sm-2 offset-md-4 " @click="createWindow">Create</button>
+              <button type="reset" class="btn btn-danger col-sm-2 offset-md-1" >Reset</button>
+          </div>
+      </form>    
+   </div>
 </template>
 
 
@@ -38,30 +43,63 @@
 import axios from 'axios';
 import apiService from '../../service/apiService.js';
 export default {
-  name: "WindowNew",
+  name: "CreateWindow",
   data: function () {
     return {
-      window: {
-        
-        name: '',
-        room_id: '',
-        status: false
-      }
+      selectedRoom:{},
+      selectedBuilding:{},
+      name:"",
+      rooms:[],
+      windowStatus:""
     }
   },
+  created:  function() {
+    apiService.get("/api/room").then(res=>{
+        this.rooms=res.data;
+    }).catch(error => {
+        console.log(error)
+        myToast.text("Error !!!").goAway(1000);
+    });
+  },
   methods: {
-    async createWindow() {
-      let roomResponse = await axios.get(`$apiService/api/room/${this.window.room_id}`);
-      let room = roomResponse.data
-      let window = {
-        
-        'name': this.window.name,
-        'room': room,
-        'status': this.window.status ? 'OPEN' : 'CLOSED'
-      }
-      let response = await axios.post(`$apiService/api/window`, window);
-      let updatedWindow = response.data;
-      this.$emit('window-new', updatedWindow);
+     createWindow() {
+        debugger
+       if(!this.windowName || !this.windowStatus || !this.selectedRoom.id || this.selectedRoom.id === undefined){
+          this.$toasted.show("Please fill the form correctly !!", { 
+              icon : {
+              name : 'error_outline'
+              }, 
+              theme: "toasted-primary", 
+              position: "top-right", 
+              duration : 5000
+          });
+          return;
+        }
+        let window = {
+          'name': this.windowName,
+          'roomId':this.selectedRoom.id,
+          'windowStatus': this.windowStatus
+        };
+        apiService.post("/api/window", window).then(res=>{
+                this.$toasted.show("Window successfully created !!", { 
+                    icon : {
+                    name : 'check'
+                    }, 
+                    theme: "toasted-primary", 
+                    position: "top-right", 
+                    duration : 5000
+                });
+          }).catch(error => {
+              console.log(error)
+              this.$toasted.show(`Error !! : ${error}`, { 
+                  icon : {
+                  name : 'error_outline'
+                  }, 
+                  theme: "toasted-primary", 
+                  position: "top-right", 
+                  duration : 5000
+              });
+          });
     }
   }
 }

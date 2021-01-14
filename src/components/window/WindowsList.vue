@@ -1,14 +1,32 @@
 <template>
-  <div class="windows-list pt-3">
-    <windows-list-item 
-      v-for="window in windows"
-      :window="window"
-      :key="window.id"  
-      @window-updated="updateWindow"
-      @window-deleted="deleteWindow"
-    >
-    </windows-list-item>
+  <div>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link " :class="{active: !isCreateWindow, disabled:!isCreateWindow}" aria-current="page" href="#" @click="onCreateWindow">Windows</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link " :class="{active: isCreateWindow, disabled:isCreateWindow}" href="#" tabindex="-1" aria-disabled="true"
+          @click="onCreateWindow">Create-Window</a>
+        </li>
+      </ul>
+      <template v-if="!isCreateWindow">
+        <div class="windows-list pt-3">
+          <windows-list-item 
+            v-for="window in windows"
+            :window="window"
+            :key="window.id"  
+            @window-updated="updateWindow"
+            @window-deleted="deleteWindow"
+          >
+          </windows-list-item>
+        </div>
+      </template>
+       <template v-if="isCreateWindow">
+          <create-window></create-window>
+      </template>
   </div>
+
+
 </template>
 
 
@@ -16,15 +34,18 @@
 import {API_HOST} from '../../config';
 import WindowsListItem from './WindowsListItem';
 import apiService from '../../service/apiService.js';
+import CreateWindow from './CreateWindow.vue';
 export default {
   components: {
-    WindowsListItem
+    WindowsListItem,
+    CreateWindow
   },
   name: 'WindowsList',
   data: function() {
     return {
       /* Initialize windows with an empty array, while waiting for actual data to be retrieved from the API */
-      windows: []
+      windows: [],
+      isCreateWindow:false
     }
   },
   created:  function() {
@@ -37,9 +58,8 @@ export default {
             position: "top-right", 
             duration : 5000
         });
-        debugger
     if(roomId) {
-      apiService.get(`/api/window/${roomId}`).then(res=>{
+      apiService.get(`/api/window/byRoom/${roomId}`).then(res=>{
         this.windows=res.data;
         setTimeout(function(){ 
             myToast.text("Done !!!",{
@@ -73,6 +93,9 @@ export default {
     deleteWindow(removeWindow) {
       let index = this.windows.findIndex(window => window.id === removeWindow.id);
       this.windows.splice(index, 1);
+    },
+    onCreateWindow(){
+      this.isCreateWindow=!this.isCreateWindow
     }
   },
   // created:function(){

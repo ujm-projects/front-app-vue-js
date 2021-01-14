@@ -85,7 +85,6 @@ export default {
       });
     },
     onCreateRoom(){
-      debugger
       this.isCreateRoom=!this.isCreateRoom
     }
   },
