@@ -4,6 +4,8 @@
       v-for="room in rooms"
       :room="room"
       :key="room.id"  
+      @heater-switch="heaterSwitch"
+       @window-switch="windowSwitch"
     >
     </room-list-item>
   </div>
@@ -47,6 +49,25 @@ export default {
 
   },
   methods: {
+    windowSwitch(event) {
+      debugger
+      let a=event.status?1:0
+      apiService.put(`/api/room/${event.data.id}/switchWindows?status=${event.status?1:0}`,null).then(res=>{
+        let index = this.rooms.findIndex(room => room.id === res.data.id);
+        this.rooms.splice(index, 1, res.data);
+         
+      }).catch(error => {
+        console.log(error)
+      });
+    }, 
+    heaterSwitch(event) {
+      apiService.put(`/api/room/${event.data.id}/switchHeaters?status=${event.status?1:0}`, null ).then(res=>{
+        let index = this.rooms.findIndex(room => room.id === res.data.id);
+        this.rooms.splice(index, 1, res.data);
+      }).catch(error => {
+        console.log(error)
+      });
+    },
   },
 }
 </script>
