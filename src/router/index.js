@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import WindowsList from '../components/window/WindowsList.vue';
+import HeaterList from '../components/heater/HeaterList.vue';
 import RoomList from '../components/room/RoomsList.vue';
 import CreateWindow from '../components/window/CreateWindow.vue';
 
@@ -18,10 +19,19 @@ export default new Router({
             component: RoomList
         },
         {
-            path: '/create-window',
-            name: 'create-window',
-            component: CreateWindow
+            path: '/window:roomId',
+            name: 'room-window',
+            component: WindowsList
         },
-
+        {
+            path: '/heater',
+            name: 'heater',
+            component: HeaterList
+        },
+        {
+            path: '/heater:roomId',
+            name: 'room-heater',
+            component: HeaterList
+        },
     ]
 })

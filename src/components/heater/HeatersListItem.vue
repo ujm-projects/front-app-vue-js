@@ -1,15 +1,15 @@
 <template>
   <div class="window border border-secondary rounded p-2 mb-2" :class="{expanded: isExpanded}">
     <div class="top-row d-flex" @click="toggleExpand">
-      <div class="window-name fw-bold pe-3">{{window.name}}</div>
-      <div class="room-name text-muted">{{window.roomName}}</div>
+      <div class="window-name fw-bold pe-3">{{heater.name}}</div>
+      <div class="room-name text-muted">{{heater.roomName}}</div>
 
-      <div class="open-status ms-4" :class="{open: isWindowOpen, closed: !isWindowOpen}">
-        <template v-if="isWindowOpen">
-          <span class="icon">&#x2B24;</span> Open
+      <div class="open-status ms-4" :class="{open: isHeaterOn, closed: !isHeaterOn}">
+        <template v-if="isHeaterOn">
+          <span class="icon">&#x2B24;</span> On
         </template>
         <template v-else>
-          <span class="icon">&#x2716;</span> Closed
+          <span class="icon">&#x2716;</span> Off
         </template>
       </div>
 
@@ -20,8 +20,8 @@
     <template v-if="isExpanded">
       <hr/>
       <div class="details d-flex">
-        <button type="button" class="btn btn-secondary me-2" @click="switchWindow">{{ isWindowOpen ? 'Close' : 'Open' }} window</button>
-        <button type="button" class="btn btn-danger" @click="deleteWindow">Delete Window</button>
+        <button type="button" class="btn btn-secondary me-2" @click="switchHeater">{{ isHeaterOn ? 'Off' : 'On' }} heater</button>
+        <button type="button" class="btn btn-danger" @click="deleteHeater">Delete Window</button>
       </div>
     </template>
   </div>
@@ -32,36 +32,39 @@ import axios from 'axios';
 import {API_HOST} from '../../config';
 import apiService from '../../service/apiService.js';
 export default {
-  name: 'WindowsListItem',
-  props: ['window'],
+  name: 'HeaterListItem',
+  props: ['heater'],
   data: function() {
     return {
       isExpanded: false
     }
   }, 
   computed: {
-    isWindowOpen: function() {
-      return this.window.windowStatus === 'OPEN'; 
+    isHeaterOn: function() {
+      return this.heater.heaterStatus === 'ON'; 
     }
   },
   methods: {
     toggleExpand() {
       this.isExpanded = !this.isExpanded;
     },
-     switchWindow() {
-      apiService.put(`/api/window/${this.window.id}/switch`,null).then(res=>{
-         let updatedWindow = res.data;
-      this.$emit('window-updated', updatedWindow);
-         
+ 
+     switchHeater() {
+          debugger
+      apiService.put(`/api/heater/${this.heater.id}/switch?status=${this.heater.heaterStatus==="ON"?0:1}`,null).then(res=>{
+      debugger
+      let updatedHeater = res.data;
+      this.$emit('heater-updated', updatedHeater);
       }).catch(error => {
+        debugger
         console.log(error)
       });
     },
-    async deleteWindow() {
-      apiService.delete(`/api/window/${this.window.id}`).then(res=>{
+    async deleteHeater() {
+      apiService.delete(`/api/heater/${this.heater.id}`).then(res=>{
          let updatedWindow = res.data;
         if (res.status === 200) {
-            this.$emit('window-deleted', this.window);
+            this.$emit('heater-deleted', this.heater);
         }
       }).catch(error => {
         console.log(error)

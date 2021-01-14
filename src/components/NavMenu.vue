@@ -8,16 +8,13 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="#">Home</a>
-            <a class="nav-item nav-link" href="#">Building</a>
-            <a class="nav-item nav-link" href="#">Room</a>
-            <a class="nav-item nav-link" href="#">
-            <router-link to="create-window">Create Window</router-link>
-            </a>
+            <a class="nav-item nav-link" activehref="#"><router-link to="room">Room</router-link></a>
             <a class="nav-item nav-link" href="#">
             <router-link to="window">Window</router-link>
             </a>
-            <a class="nav-item nav-link disabled" href="#">Heater</a>
+            <a class="nav-item nav-link " href="#">
+              <router-link to="heater">heater</router-link>
+            </a>
             </div>
         </div>
     </nav>
