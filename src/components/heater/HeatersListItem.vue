@@ -61,7 +61,7 @@ export default {
       apiService.delete(`/api/heater/${this.heater.id}`).then(res=>{
          let updatedHeater = res.data;
         if (res.status === 200) {
-            this.$emit('heater-deleted', this.updatedHeater);
+            this.$emit('heater-deleted', this.heater);
         }
       }).catch(error => {
         console.log(error)
