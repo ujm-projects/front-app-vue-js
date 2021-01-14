@@ -12,9 +12,9 @@
 
 
 <script>
-import {API_HOST} from '../config';
+import {API_HOST} from '../../config';
 import WindowsListItem from './WindowsListItem';
-import apiService from '../service/apiService.js';
+import apiService from '../../service/apiService.js';
 export default {
   components: {
     WindowsListItem
