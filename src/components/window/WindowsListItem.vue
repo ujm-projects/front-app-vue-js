@@ -50,7 +50,7 @@ export default {
     },
      switchWindow() {
       apiService.put(`/api/window/${this.window.id}/switch`,null).then(res=>{
-         let updatedWindow = response.data;
+         let updatedWindow = res.data;
       this.$emit('window-updated', updatedWindow);
          
       }).catch(error => {

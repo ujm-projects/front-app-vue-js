@@ -48,12 +48,15 @@ export default {
     toggleExpand() {
       this.isExpanded = !this.isExpanded;
     },
+ 
      switchHeater() {
+          debugger
       apiService.put(`/api/heater/${this.heater.id}/switch?status=${this.heater.heaterStatus==="ON"?0:1}`,null).then(res=>{
-         let updatedHeater = response.data;
+      debugger
+      let updatedHeater = res.data;
       this.$emit('heater-updated', updatedHeater);
-         
       }).catch(error => {
+        debugger
         console.log(error)
       });
     },
