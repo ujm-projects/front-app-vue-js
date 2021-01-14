@@ -1,7 +1,7 @@
 # VueJS FrontEnd App
  `Hosted link` - click here : <a href="https://restfront.netlify.app/#/">App</a>
 
-TeamMembers-Dhayanand Dharmalingam , Aninda Maulik , Poulomi Nandy.
+TeamMembers-Dhayananth Dharmalingam , Aninda Maulik , Poulomi Nandy.
 ## About the Project
 This application helps to manage heater and window IoT devices remotely. This front-end application developed using VUE -JS framework. 
 
