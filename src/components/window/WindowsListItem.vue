@@ -49,9 +49,15 @@ export default {
       this.isExpanded = !this.isExpanded;
     },
     async switchWindow() {
-      let response = await axios.put(`${API_HOST}/api/windows/${this.window.id}/switch`);
+      let response = await axios.put(`${API_HOST}/api/window/${this.window.id}/switch`);
       let updatedWindow = response.data;
       this.$emit('window-updated', updatedWindow);
+    },
+    async statusWindow() {
+       let response = await axios.delete(`${API_HOST}/api/window/${this.window.id}`);
+       if (response.status === 200) {
+        this.$emit('window-deleted', this.window);
+      }
     }
   }
 }
